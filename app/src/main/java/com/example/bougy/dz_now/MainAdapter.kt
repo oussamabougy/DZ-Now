@@ -28,6 +28,8 @@ class MainAdapter(val homeFeed: HomeFeed) : RecyclerView.Adapter<CustomViewHolde
         holder?.view?.textView_theme_main?.text = actuality.theme
         //val thumbnailImageView = holder?.view?.imageView_main
         //Picasso.with(holder?.view?.context).load(travel.main_image).into(thumbnailImageView)
+
+        holder?.actuality = actuality
     }
 }
 
@@ -35,9 +37,9 @@ class CustomViewHolder(val view : View, var actuality: Actuality? =null): Recycl
     init {
         view.setOnClickListener {
             val intent = Intent(view.context, ActualityDetailActivity::class.java)
-            intent.putExtra("travelTitle", actuality?.title)
-            intent.putExtra("travelDescription", actuality?.description)
-            intent.putExtra("travelHistorique", actuality?.time)
+            intent.putExtra("actualityTitle", actuality?.title)
+            intent.putExtra("actualityDescription", actuality?.description)
+            intent.putExtra("actualityTime", actuality?.time)
             view.context.startActivity(intent)
         }
     }
