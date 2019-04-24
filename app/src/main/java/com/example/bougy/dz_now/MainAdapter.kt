@@ -36,6 +36,7 @@ class MainAdapter(val homeFeed: HomeFeed) : RecyclerView.Adapter<CustomViewHolde
 class CustomViewHolder(val view : View, var actuality: Actuality? =null): RecyclerView.ViewHolder(view) {
     init {
         view.setOnClickListener {
+            print(123)
             val intent = Intent(view.context, ActualityDetailActivity::class.java)
             intent.putExtra("actualityTitle", actuality?.title)
             intent.putExtra("actualityDescription", actuality?.description)
