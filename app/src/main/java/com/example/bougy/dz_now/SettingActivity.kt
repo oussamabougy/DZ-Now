@@ -23,32 +23,11 @@ class SettingActivity : AppCompatActivity() {
     }
 
     fun fetchSettings() {
-        var body = "{" +
-                "'themes':[" +
-                "{" +
-                "'id':1," +
-                "'title':'Politique'," +
-                "'checked': true"+
-                "}," +
-                "{" +
-                "'id':2," +
-                "'title':'Sport'," +
-                "'checked': true"+
-                "}," +
-                "{" +
-                "'id':3," +
-                "'title':'Culture'," +
-                "'checked': false"+
-                "}" +
-                "]" +
-                "}"
-        println(body)
+        var body = ""
         var prefs: Prefs? = null
         prefs = Prefs(this)
         if (prefs.contains("themes"))
             body = prefs.themes
-        else
-            prefs.themes = body
 
         val gson = GsonBuilder().create()
 

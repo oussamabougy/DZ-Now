@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         recyclerView_main.layoutManager = LinearLayoutManager(this)
 
-        fetchJson()
+        initApp()
     }
 
     override fun onBackPressed() {
@@ -76,6 +76,34 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
+    fun initApp() {
+        var prefs: Prefs? = null
+        prefs = Prefs(this)
+        if (!prefs.contains("themes")) {
+            var themesData = "{" +
+                    "'themes':[" +
+                    "{" +
+                    "'id':1," +
+                    "'title':'Politique'," +
+                    "'checked': true"+
+                    "}," +
+                    "{" +
+                    "'id':2," +
+                    "'title':'Sport'," +
+                    "'checked': true"+
+                    "}," +
+                    "{" +
+                    "'id':3," +
+                    "'title':'Culture'," +
+                    "'checked': false"+
+                    "}" +
+                    "]" +
+                    "}"
+            prefs.themes = themesData
+        }
+        fetchJson()
+    }
+
     fun fetchJson() {
         val body = "{" +
                 "'actualities':[" +
@@ -108,7 +136,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         println(body)
         val gson = GsonBuilder().create()
 
-        val homeFeed = gson.fromJson(body, HomeFeed::class.java)
+        val homeFeedAll = gson.fromJson(body, HomeFeed::class.java)
+
+
+        var themeData = ""
+        var prefs: Prefs? = null
+        prefs = Prefs(this)
+        if (prefs.contains("themes"))
+            themeData = prefs.themes
+
+        val themeList = gson.fromJson(themeData, ThemeList::class.java)
+
+        var actualities: List<Actuality> = homeFeedAll.actualities.filter {
+            var theme = it.theme
+            themeList.themes.filter { it.title == theme }.single().checked
+        }
+
+        var homeFeed = HomeFeed(actualities)
+
         runOnUiThread {
             recyclerView_main.adapter = MainAdapter(homeFeed)
         }
