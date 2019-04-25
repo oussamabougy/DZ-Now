@@ -1,6 +1,8 @@
 package com.example.bougy.dz_now
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
@@ -55,14 +57,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
-            R.id.action_settings -> return true
+            R.id.action_settings -> {
+                val intent = Intent(this, SettingActivity::class.java)
+                startActivity(intent)
+                return true
+            }
             else -> return super.onOptionsItemSelected(item)
         }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
-        val k = item.title
         val intent = Intent(this, FilteredListActivity::class.java)
         intent.putExtra("title", item.title)
         startActivity(intent)
@@ -114,3 +119,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 class HomeFeed(val actualities: List<Actuality>)
 
 class Actuality(val id: Int, val title: String, val description: String, val main_image: String, val time: String, val theme: String)
+
+class Prefs (context: Context) {
+    val PREFS_FILENAME = "com.prefs"
+    val THEMES = "themes"
+    val prefs: SharedPreferences = context.getSharedPreferences(PREFS_FILENAME, 0)
+    fun contains(keywork:String):Boolean{
+        return prefs.contains(keywork)
+    }
+    var themes: String
+        get() = prefs.getString(THEMES, "")
+        set(value) = prefs.edit().putString(THEMES, value).apply()
+}
