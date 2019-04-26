@@ -38,9 +38,11 @@ class CustomViewHolder(val view : View, var actuality: Actuality? =null): Recycl
         view.setOnClickListener {
             print(123)
             val intent = Intent(view.context, ActualityDetailActivity::class.java)
+            intent.putExtra("actualityId", actuality?.id)
             intent.putExtra("actualityTitle", actuality?.title)
             intent.putExtra("actualityDescription", actuality?.description)
             intent.putExtra("actualityTime", actuality?.time)
+            intent.putExtra("actualitySaved", actuality?.saved)
             view.context.startActivity(intent)
         }
     }

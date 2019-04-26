@@ -62,6 +62,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 startActivity(intent)
                 return true
             }
+            R.id.action_favoris -> {
+                val intent = Intent(this, BookmarkActivity::class.java)
+                startActivity(intent)
+                return true
+            }
             else -> return super.onOptionsItemSelected(item)
         }
     }
@@ -101,47 +106,56 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     "}"
             prefs.themes = themesData
         }
+        if(!prefs.contains("actualities")) {
+            val actualitiesData = "{" +
+                    "'actualities':[" +
+                    "{" +
+                    "'id':1," +
+                    "'title':'Royaume-Uni reporte le Brexit au 31 octobre'," +
+                    "'description': 'BREXIT - Un compromis qui ne manque pas d ironie. Dans la soirée du mercredi 10 au jeudi 11 avril, l Union européenne a proposé au Royaume-Uni de reporter la date du Brexit au 31 octobre, après un point d étape en juin, ont rapporté plusieurs sources diplomatiques. '," +
+                    "'main_image': 'https://9c998969b63acdb676d1-37595348221e1b716e1a6cfee3ed7891.ssl.cf1.rackcdn.com/almpics/2014/02/RTR22VZQ.jpg/RTR22VZQ-870.jpg'," +
+                    "'time': '2h',"+
+                    "'theme': 'Politique',"+
+                    "'saved': true"+
+                    "}," +
+                    "{" +
+                    "'id':2," +
+                    "'title':'Hirak Algeria'," +
+                    "'description': 'BREXIT - Un compromis qui ne manque pas d ironie. Dans la soirée du mercredi 10 au jeudi 11 avril, l Union européenne a proposé au Royaume-Uni de reporter la date du Brexit au 31 octobre, après un point d étape en juin, ont rapporté plusieurs sources diplomatiques. '," +
+                    "'main_image': 'https://9c998969b63acdb676d1-37595348221e1b716e1a6cfee3ed7891.ssl.cf1.rackcdn.com/almpics/2014/02/RTR22VZQ.jpg/RTR22VZQ-870.jpg'," +
+                    "'time': '2h',"+
+                    "'theme': 'Politique',"+
+                    "'saved': false"+
+                    "}," +
+                    "{" +
+                    "'id':3," +
+                    "'title':'AJAX AMSTERDAM 1-1 JUVENTUS TURIN'," +
+                    "'description': 'LIGUE DES CHAMPIONS – On s attendait à un match intense entre deux historiques du football européen, ils nous ont servi. Si personne ne repart avec la victoire, tous les supporters peuvent être heureux de ce qu ils ont vu (1-1).'," +
+                    "'main_image': 'https://letsbuildthatapp-videos.s3-us-west-2.amazonaws.com/dda5bc77-327f-4944-8f51-ba4f3651ffdf'," +
+                    "'time': '3h',"+
+                    "'theme': 'Sport',"+
+                    "'saved': false"+
+                    "}" +
+                    "]" +
+                    "}"
+            prefs.actualities = actualitiesData
+        }
         fetchJson()
     }
 
     fun fetchJson() {
-        val body = "{" +
-                "'actualities':[" +
-                "{" +
-                "'id':1," +
-                "'title':'Royaume-Uni reporte le Brexit au 31 octobre'," +
-                "'description': 'BREXIT - Un compromis qui ne manque pas d ironie. Dans la soirée du mercredi 10 au jeudi 11 avril, l Union européenne a proposé au Royaume-Uni de reporter la date du Brexit au 31 octobre, après un point d étape en juin, ont rapporté plusieurs sources diplomatiques. '," +
-                "'main_image': 'https://9c998969b63acdb676d1-37595348221e1b716e1a6cfee3ed7891.ssl.cf1.rackcdn.com/almpics/2014/02/RTR22VZQ.jpg/RTR22VZQ-870.jpg'," +
-                "'time': '2h',"+
-                "'theme': 'Politique'"+
-                "}," +
-                "{" +
-                "'id':2," +
-                "'title':'Hirak Algeria'," +
-                "'description': 'BREXIT - Un compromis qui ne manque pas d ironie. Dans la soirée du mercredi 10 au jeudi 11 avril, l Union européenne a proposé au Royaume-Uni de reporter la date du Brexit au 31 octobre, après un point d étape en juin, ont rapporté plusieurs sources diplomatiques. '," +
-                "'main_image': 'https://9c998969b63acdb676d1-37595348221e1b716e1a6cfee3ed7891.ssl.cf1.rackcdn.com/almpics/2014/02/RTR22VZQ.jpg/RTR22VZQ-870.jpg'," +
-                "'time': '2h',"+
-                "'theme': 'Politique'"+
-                "}," +
-                "{" +
-                "'id':3," +
-                "'title':'AJAX AMSTERDAM 1-1 JUVENTUS TURIN'," +
-                "'description': 'LIGUE DES CHAMPIONS – On s attendait à un match intense entre deux historiques du football européen, ils nous ont servi. Si personne ne repart avec la victoire, tous les supporters peuvent être heureux de ce qu ils ont vu (1-1).'," +
-                "'main_image': 'https://letsbuildthatapp-videos.s3-us-west-2.amazonaws.com/dda5bc77-327f-4944-8f51-ba4f3651ffdf'," +
-                "'time': '3h',"+
-                "'theme': 'Sport'"+
-                "}" +
-                "]" +
-                "}"
-        println(body)
+        var prefs: Prefs? = null
+        prefs = Prefs(this)
+
+        var body = ""
+        if (prefs.contains("actualities"))
+            body = prefs.actualities
         val gson = GsonBuilder().create()
 
         val homeFeedAll = gson.fromJson(body, HomeFeed::class.java)
 
 
         var themeData = ""
-        var prefs: Prefs? = null
-        prefs = Prefs(this)
         if (prefs.contains("themes"))
             themeData = prefs.themes
 
@@ -163,11 +177,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 class HomeFeed(val actualities: List<Actuality>)
 
-class Actuality(val id: Int, val title: String, val description: String, val main_image: String, val time: String, val theme: String)
+class Actuality(val id: Int, val title: String, val description: String, val main_image: String, val time: String, val theme: String, var saved: Boolean)
 
 class Prefs (context: Context) {
     val PREFS_FILENAME = "com.prefs"
     val THEMES = "themes"
+    val ACTUALITIES = "actualities"
     val prefs: SharedPreferences = context.getSharedPreferences(PREFS_FILENAME, 0)
     fun contains(keywork:String):Boolean{
         return prefs.contains(keywork)
@@ -175,4 +190,8 @@ class Prefs (context: Context) {
     var themes: String
         get() = prefs.getString(THEMES, "")
         set(value) = prefs.edit().putString(THEMES, value).apply()
+
+    var actualities: String
+        get() = prefs.getString(ACTUALITIES, "")
+        set(value) = prefs.edit().putString(ACTUALITIES, value).apply()
 }

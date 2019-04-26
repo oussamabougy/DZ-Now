@@ -4,25 +4,23 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.google.gson.GsonBuilder
-import kotlinx.android.synthetic.main.activity_actuality_detail.*
+import kotlinx.android.synthetic.main.activity_bookmark.*
 import kotlinx.android.synthetic.main.activity_filtered_list.*
-import kotlinx.android.synthetic.main.content_main.*
 
-class FilteredListActivity : AppCompatActivity() {
+class BookmarkActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_filtered_list)
+        setContentView(R.layout.activity_bookmark)
 
-        val categoryTitle = intent.getStringExtra("title")
-        setTitle(categoryTitle)
+        setTitle(R.string.action_favoris)
 
-        recyclerView_filtered.layoutManager = LinearLayoutManager(this)
+        recyclerView_bookmark.layoutManager = LinearLayoutManager(this)
 
-        fetchJson()
+        getBookmark()
     }
 
-    fun fetchJson() {
+    fun getBookmark() {
         var prefs: Prefs? = null
         prefs = Prefs(this)
 
@@ -33,12 +31,11 @@ class FilteredListActivity : AppCompatActivity() {
 
         val homeFeedAll = gson.fromJson(body, HomeFeed::class.java)
 
-        val categoryTitle = intent.getStringExtra("title")
-        var actualities: List<Actuality> = homeFeedAll.actualities.filter { it.theme == categoryTitle }
+        var actualities: List<Actuality> = homeFeedAll.actualities.filter { it.saved }
 
         var homeFeed = HomeFeed(actualities)
         runOnUiThread {
-            recyclerView_filtered.adapter = MainAdapter(homeFeed)
+            recyclerView_bookmark.adapter = MainAdapter(homeFeed)
         }
 
     }
