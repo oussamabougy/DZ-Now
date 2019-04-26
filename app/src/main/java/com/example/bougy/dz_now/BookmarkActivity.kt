@@ -15,8 +15,6 @@ class BookmarkActivity : AppCompatActivity() {
 
         setTitle(R.string.action_favoris)
 
-        recyclerView_bookmark.layoutManager = LinearLayoutManager(this)
-
         getBookmark()
     }
 

@@ -17,7 +17,6 @@ class FilteredListActivity : AppCompatActivity() {
         val categoryTitle = intent.getStringExtra("title")
         setTitle(categoryTitle)
 
-        recyclerView_filtered.layoutManager = LinearLayoutManager(this)
 
         fetchJson()
     }
