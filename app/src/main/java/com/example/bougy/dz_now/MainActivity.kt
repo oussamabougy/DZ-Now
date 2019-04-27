@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -16,7 +17,9 @@ import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import com.google.gson.GsonBuilder
+import kotlinx.android.synthetic.main.actuality_row.view.*
 import kotlinx.android.synthetic.main.content_main.*
+import java.util.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -91,17 +94,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     "{" +
                     "'id':1," +
                     "'title':'Politique'," +
+                    "'titleAR':'سياسة'," +
                     "'checked': true"+
                     "}," +
                     "{" +
                     "'id':2," +
                     "'title':'Sport'," +
+                    "'titleAR':'رياضة'," +
                     "'checked': true"+
                     "}," +
                     "{" +
                     "'id':3," +
                     "'title':'Culture'," +
-                    "'checked': false"+
+                    "'titleAR':'ثقافة'," +
+                    "'checked': true"+
                     "}" +
                     "]" +
                     "}"
@@ -113,37 +119,74 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     "{" +
                     "'id':1," +
                     "'title':'Royaume-Uni reporte le Brexit au 31 octobre'," +
+                    "'titleAR':'بريطانيا تؤجل الإنتخابات'," +
                     "'description': 'BREXIT - Un compromis qui ne manque pas d ironie. Dans la soirée du mercredi 10 au jeudi 11 avril, l Union européenne a proposé au Royaume-Uni de reporter la date du Brexit au 31 octobre, après un point d étape en juin, ont rapporté plusieurs sources diplomatiques. '," +
+                    "'descriptionAR': 'بريطانيا تؤجل الإنتخابات'," +
                     "'main_image': 'https://9c998969b63acdb676d1-37595348221e1b716e1a6cfee3ed7891.ssl.cf1.rackcdn.com/almpics/2014/02/RTR22VZQ.jpg/RTR22VZQ-870.jpg'," +
-                    "'time': '2h',"+
+                    "'time': '30/04/2019',"+
                     "'theme': 'Politique',"+
-                    "'saved': true"+
+                    "'themeAR': 'سياسة',"+
+                    "'saved': false"+
                     "}," +
                     "{" +
                     "'id':2," +
                     "'title':'Hirak Algeria'," +
+                    "'titleAR':'بريطانيا تؤجل الإنتخابات'," +
                     "'description': 'BREXIT - Un compromis qui ne manque pas d ironie. Dans la soirée du mercredi 10 au jeudi 11 avril, l Union européenne a proposé au Royaume-Uni de reporter la date du Brexit au 31 octobre, après un point d étape en juin, ont rapporté plusieurs sources diplomatiques. '," +
+                    "'descriptionAR': 'بريطانيا تؤجل الإنتخابات'," +
                     "'main_image': 'https://9c998969b63acdb676d1-37595348221e1b716e1a6cfee3ed7891.ssl.cf1.rackcdn.com/almpics/2014/02/RTR22VZQ.jpg/RTR22VZQ-870.jpg'," +
-                    "'time': '2h',"+
+                    "'time': '29/04/2019',"+
                     "'theme': 'Politique',"+
+                    "'themeAR': 'سياسة',"+
                     "'saved': false"+
                     "}," +
                     "{" +
                     "'id':3," +
                     "'title':'AJAX AMSTERDAM 1-1 JUVENTUS TURIN'," +
+                    "'titleAR':'بريطانيا تؤجل الإنتخابات'," +
                     "'description': 'LIGUE DES CHAMPIONS – On s attendait à un match intense entre deux historiques du football européen, ils nous ont servi. Si personne ne repart avec la victoire, tous les supporters peuvent être heureux de ce qu ils ont vu (1-1).'," +
+                    "'descriptionAR': 'بريطانيا تؤجل الإنتخابات'," +
                     "'main_image': 'https://letsbuildthatapp-videos.s3-us-west-2.amazonaws.com/dda5bc77-327f-4944-8f51-ba4f3651ffdf'," +
-                    "'time': '3h',"+
+                    "'time': '29/04/2019',"+
                     "'theme': 'Sport',"+
+                    "'themeAR': 'رياضة',"+
                     "'saved': false"+
                     "}" +
                     "]" +
                     "}"
             prefs.actualities = actualitiesData
         }
+        renderDrawer()
         fetchJson()
     }
+    fun renderDrawer(){
+        var body = ""
+        var prefs: Prefs? = null
+        prefs = Prefs(this)
+        if (prefs.contains("themes"))
+            body = prefs.themes
 
+        val gson = GsonBuilder().create()
+
+        val themeList = gson.fromJson(body, ThemeList::class.java)
+
+        themeList.themes.mapIndexed { index, theme ->
+            val group = nav_view.menu.getItem(0).subMenu
+            val lang = Locale.getDefault().getLanguage()
+            when(lang){
+                "ar" -> {
+                    val item = group.add(theme.titleAR)
+                    item.setIcon(R.drawable.ic_feed)
+                }
+                else -> {
+                    val item = group.add(theme.title)
+                    item.setIcon(R.drawable.ic_feed)
+                }
+            }
+
+        }
+
+    }
     fun fetchJson() {
         var prefs: Prefs? = null
         prefs = Prefs(this)
@@ -174,11 +217,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
     }
+
 }
 
 class HomeFeed(val actualities: List<Actuality>)
 
-class Actuality(val id: Int, val title: String, val description: String, val main_image: String, val time: String, val theme: String, var saved: Boolean)
+class Actuality(val id: Int, val title: String, val titleAR:String, val description: String, val descriptionAR: String, val main_image: String, val time: String, val theme: String, val themeAR:String, var saved: Boolean)
 
 class Prefs (context: Context) {
     val PREFS_FILENAME = "com.prefs"

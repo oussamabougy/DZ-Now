@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">DZ-Now</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -5,9 +6,9 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Paramètres</string>
-    <string name="action_favoris">Favoris</string>
-    <string name="action_share">Partager</string>
-    <string name="save_actuality">Enregistrer</string>
-    <string name="news">Journal</string>
+    <string name="action_settings">إعدادات</string>
+    <string name="action_favoris">المفضلة</string>
+    <string name="action_share">مشاركة</string>
+    <string name="save_actuality">حفظ</string>
+    <string name="news">أخبار</string>
 </resources>

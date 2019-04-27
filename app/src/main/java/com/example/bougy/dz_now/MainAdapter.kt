@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import kotlinx.android.synthetic.main.actuality_row.view.*
+import kotlinx.android.synthetic.main.theme_setting_row.view.*
+import java.util.*
 
 class MainAdapter(val homeFeed: HomeFeed) : RecyclerView.Adapter<CustomViewHolder>() {
 
@@ -23,9 +25,20 @@ class MainAdapter(val homeFeed: HomeFeed) : RecyclerView.Adapter<CustomViewHolde
     }
     override fun onBindViewHolder(holder: CustomViewHolder, p1: Int) {
         val actuality = homeFeed.actualities.get(p1)
-        holder?.view?.textView_main_title?.text = actuality.title
-        holder?.view?.textView_time_main?.text = actuality.time
-        holder?.view?.textView_theme_main?.text = actuality.theme
+        val lang = Locale.getDefault().getLanguage()
+        when(lang){
+            "ar" -> {
+                holder?.view?.textView_main_title?.text = actuality.titleAR
+                holder?.view?.textView_theme_main?.text = actuality.themeAR
+                holder?.view?.textView_time_main?.text = "التاريخ: " + actuality.time
+            }
+            else -> {
+                holder?.view?.textView_main_title?.text = actuality.title
+                holder?.view?.textView_theme_main?.text = actuality.theme
+                holder?.view?.textView_time_main?.text =  "Date:" + actuality.time
+            }
+        }
+
         //val thumbnailImageView = holder?.view?.imageView_main
         //Picasso.with(holder?.view?.context).load(travel.main_image).into(thumbnailImageView)
 
@@ -38,9 +51,18 @@ class CustomViewHolder(val view : View, var actuality: Actuality? =null): Recycl
         view.setOnClickListener {
             print(123)
             val intent = Intent(view.context, ActualityDetailActivity::class.java)
+            val lang = Locale.getDefault().getLanguage()
+            when(lang){
+                "ar" -> {
+                    intent.putExtra("actualityTitle", actuality?.titleAR)
+                    intent.putExtra("actualityDescription", actuality?.descriptionAR)
+                }
+                else -> {
+                    intent.putExtra("actualityTitle", actuality?.title)
+                    intent.putExtra("actualityDescription", actuality?.description)
+                }
+            }
             intent.putExtra("actualityId", actuality?.id)
-            intent.putExtra("actualityTitle", actuality?.title)
-            intent.putExtra("actualityDescription", actuality?.description)
             intent.putExtra("actualityTime", actuality?.time)
             intent.putExtra("actualitySaved", actuality?.saved)
             view.context.startActivity(intent)

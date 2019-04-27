@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_actuality_detail.*
 import kotlinx.android.synthetic.main.activity_filtered_list.*
 import kotlinx.android.synthetic.main.content_main.*
+import java.util.*
 
 class FilteredListActivity : AppCompatActivity() {
 
@@ -33,8 +34,13 @@ class FilteredListActivity : AppCompatActivity() {
         val homeFeedAll = gson.fromJson(body, HomeFeed::class.java)
 
         val categoryTitle = intent.getStringExtra("title")
-        var actualities: List<Actuality> = homeFeedAll.actualities.filter { it.theme == categoryTitle }
+        var actualities: List<Actuality>
 
+        val lang = Locale.getDefault().getLanguage()
+        when(lang) {
+            "ar" -> actualities = homeFeedAll.actualities.filter { it.themeAR == categoryTitle }
+            else -> actualities = homeFeedAll.actualities.filter { it.theme == categoryTitle }
+        }
         var homeFeed = HomeFeed(actualities)
         runOnUiThread {
             recyclerView_filtered.adapter = MainAdapter(homeFeed)

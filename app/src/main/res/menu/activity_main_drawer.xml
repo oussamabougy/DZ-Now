@@ -4,16 +4,9 @@
       tools:showIn="navigation_view">
 
 
-    <item android:title="Category">
+    <item android:title="Category" android:id="@+id/list_item">
         <menu>
-            <item
-                    android:id="@+id/nav_politique"
-                    android:icon="@drawable/ic_feed"
-                    android:title="Sport"/>
-            <item
-                    android:id="@+id/nav_sport"
-                    android:icon="@drawable/ic_feed"
-                    android:title="Politique"/>
+
         </menu>
     </item>
 

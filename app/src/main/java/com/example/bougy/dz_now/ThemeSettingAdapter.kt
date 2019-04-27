@@ -10,6 +10,7 @@ import android.widget.Toast
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.actuality_row.view.*
 import kotlinx.android.synthetic.main.theme_setting_row.view.*
+import java.util.*
 
 class ThemeSettingAdapter(val themeList: ThemeList) : RecyclerView.Adapter<CustomThemeViewHolder>() {
 
@@ -26,7 +27,11 @@ class ThemeSettingAdapter(val themeList: ThemeList) : RecyclerView.Adapter<Custo
     }
     override fun onBindViewHolder(holder: CustomThemeViewHolder, p1: Int) {
         val theme = themeList.themes.get(p1)
-        holder?.view?.theme_setting_switch?.text = theme.title
+        val lang = Locale.getDefault().getLanguage()
+        when(lang){
+            "ar" -> holder?.view?.theme_setting_switch?.text = theme.titleAR
+            else -> holder?.view?.theme_setting_switch?.text = theme.title
+        }
         holder?.view?.theme_setting_switch?.isChecked = theme.checked
         holder?.view?.theme_setting_switch?.setOnCheckedChangeListener{ buttonView, isChecked ->
             var prefs: Prefs? = null

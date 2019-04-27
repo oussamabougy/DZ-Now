@@ -39,4 +39,4 @@ class SettingActivity : AppCompatActivity() {
     }
 }
 class ThemeList(var themes: List<Theme>)
-class Theme(val id: Int, val title: String, var checked: Boolean = true)
+class Theme(val id: Int, val title: String, val titleAR:String, var checked: Boolean = true)

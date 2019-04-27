@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.google.gson.GsonBuilder
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_actuality_detail.*
 
 class ActualityDetailActivity : AppCompatActivity() {
@@ -15,14 +17,13 @@ class ActualityDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_actuality_detail)
 
-        setTitle("Actuality Detail")
+        setTitle(R.string.news)
 
         textView_title.text = intent.getStringExtra("actualityTitle")
         textView_description.text = intent.getStringExtra("actualityDescription")
         saved_switch.isChecked = intent.getBooleanExtra("actualitySaved",false)
         saved_switch.setOnCheckedChangeListener { buttonView, isChecked ->
             var id = intent.getIntExtra("actualityId", 0)
-            //Toast.makeText(this, id, Toast.LENGTH_SHORT).show()
             var prefs: Prefs? = null
             prefs = Prefs(this)
 
