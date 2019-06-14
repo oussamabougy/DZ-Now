@@ -39,6 +39,9 @@ class MainAdapter(val homeFeed: HomeFeed) : RecyclerView.Adapter<CustomViewHolde
             }
         }
 
+        val id = holder?.view?.resources.getIdentifier("img"+actuality.id, "drawable", holder?.view?.context.packageName)
+        holder?.view?.imageView_main.setImageResource(id)
+
         //val thumbnailImageView = holder?.view?.imageView_main
         //Picasso.with(holder?.view?.context).load(travel.main_image).into(thumbnailImageView)
 
@@ -49,7 +52,6 @@ class MainAdapter(val homeFeed: HomeFeed) : RecyclerView.Adapter<CustomViewHolde
 class CustomViewHolder(val view : View, var actuality: Actuality? =null): RecyclerView.ViewHolder(view) {
     init {
         view.setOnClickListener {
-            print(123)
             val intent = Intent(view.context, ActualityDetailActivity::class.java)
             val lang = Locale.getDefault().getLanguage()
             when(lang){

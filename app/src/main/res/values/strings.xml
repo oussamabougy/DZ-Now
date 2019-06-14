@@ -10,4 +10,5 @@
     <string name="action_share">Partager</string>
     <string name="save_actuality">Enregistrer</string>
     <string name="news">Journal</string>
+    <string name="category">Catégorie</string>
 </resources>

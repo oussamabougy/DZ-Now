@@ -12,7 +12,7 @@
             android:id="@+id/imageView_main" app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"/>
     <TextView
-            android:text="السلان"
+            android:text="Text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textColor="#000"

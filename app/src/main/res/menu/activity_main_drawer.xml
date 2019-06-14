@@ -4,7 +4,7 @@
       tools:showIn="navigation_view">
 
 
-    <item android:title="Category" android:id="@+id/list_item">
+    <item android:title="@string/category" android:id="@+id/list_item">
         <menu>
 
         </menu>

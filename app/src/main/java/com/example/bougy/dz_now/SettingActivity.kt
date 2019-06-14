@@ -14,7 +14,7 @@ class SettingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
-        setTitle("Paramètres")
+        setTitle(R.string.action_settings)
 
         recyclerView_theme.layoutManager = LinearLayoutManager(this)
 

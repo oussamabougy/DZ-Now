@@ -108,6 +108,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     "'title':'Culture'," +
                     "'titleAR':'ثقافة'," +
                     "'checked': true"+
+                    "}," +
+                    "{" +
+                    "'id':4," +
+                    "'title':'Jeux'," +
+                    "'titleAR':'ألعاب'," +
+                    "'checked': true"+
+                    "}," +
+                    "{" +
+                    "'id':5," +
+                    "'title':'Economie'," +
+                    "'titleAR':'إقتصاد'," +
+                    "'checked': true"+
+                    "}," +
+                    "{" +
+                    "'id':5," +
+                    "'title':'Education'," +
+                    "'titleAR':'تعليم'," +
+                    "'checked': true"+
                     "}" +
                     "]" +
                     "}"
@@ -120,8 +138,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     "'id':1," +
                     "'title':'Royaume-Uni reporte le Brexit au 31 octobre'," +
                     "'titleAR':'بريطانيا تؤجل الإنتخابات'," +
-                    "'description': 'BREXIT - Un compromis qui ne manque pas d ironie. Dans la soirée du mercredi 10 au jeudi 11 avril, l Union européenne a proposé au Royaume-Uni de reporter la date du Brexit au 31 octobre, après un point d étape en juin, ont rapporté plusieurs sources diplomatiques. '," +
-                    "'descriptionAR': 'بريطانيا تؤجل الإنتخابات'," +
+                    "'description': 'BREXIT - Un compromis qui ne manque pas d ironie. Dans la soirée du mercredi 10 au jeudi 11 avril, l Union européenne a proposé au Royaume-Uni de reporter la date du Brexit au 31 octobre, après un point d étape en juin, ont rapporté plusieurs sources diplomatiques.'," +
+                    "'descriptionAR': 'BREXIT - حل وسط لا يفتقر إلى المفارقة. في مساء يوم الأربعاء 10 إلى الخميس 11 أبريل ، اقترح الاتحاد الأوروبي على المملكة المتحدة تأجيل موعد خروج بريطانيا من الاتحاد الأوروبي إلى 31 أكتوبر ، بعد معلم بارز في يونيو ، حسبما ذكرت عدة مصادر دبلوماسية'," +
                     "'main_image': 'https://9c998969b63acdb676d1-37595348221e1b716e1a6cfee3ed7891.ssl.cf1.rackcdn.com/almpics/2014/02/RTR22VZQ.jpg/RTR22VZQ-870.jpg'," +
                     "'time': '30/04/2019',"+
                     "'theme': 'Politique',"+
@@ -130,26 +148,85 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     "}," +
                     "{" +
                     "'id':2," +
-                    "'title':'Hirak Algeria'," +
-                    "'titleAR':'بريطانيا تؤجل الإنتخابات'," +
-                    "'description': 'BREXIT - Un compromis qui ne manque pas d ironie. Dans la soirée du mercredi 10 au jeudi 11 avril, l Union européenne a proposé au Royaume-Uni de reporter la date du Brexit au 31 octobre, après un point d étape en juin, ont rapporté plusieurs sources diplomatiques. '," +
-                    "'descriptionAR': 'بريطانيا تؤجل الإنتخابات'," +
+                    "'title':'Bac 2019: une semaine d examen'," +
+                    "'titleAR':'باك 2019: أسبوع من الفحص'," +
+                    "'description': '743.000 candidats (en baisse de 1,27% par rapport à l an dernier, qui concernait la génération record des \"bébés an 2000\"), 174.300 correcteurs et examinateurs mobilisés, quatre millions de copies...: le bac est une étape majeure dans l année scolaire et pour les personnels de l Education nationale.\n" +
+                    "\n" +
+                    "Or des syndicats d enseignants ont appelé à la grève de la surveillance des épreuves du premier jour (philosophie pour les Terminales générales et technologiques, français pour les Premières), pour protester contre la réforme du bac.'," +
+                    "'descriptionAR': '743000 من المتقدمين (بانخفاض 1.27 ٪ مقارنة بالعام الماضي ، والذي يتعلق بالجيل القياسي من \"سنة الطفل 2000\") ، حشد 174300 فاحص وفاحص ، أربعة ملايين نسخة ...: الدرج هو خطوة كبيرة في العام الدراسي وموظفي التعليم الوطني.\n" +
+                    "ومع ذلك ، فقد دعت نقابات المعلمين إلى الإضراب للإشراف على اختبارات اليوم الأول (فلسفة المحطات العامة والتكنولوجية والفرنسية للأول) ، للاحتجاج على إصلاح الباكالوريا.'," +
                     "'main_image': 'https://9c998969b63acdb676d1-37595348221e1b716e1a6cfee3ed7891.ssl.cf1.rackcdn.com/almpics/2014/02/RTR22VZQ.jpg/RTR22VZQ-870.jpg'," +
+                    "'time': '29/04/2019',"+
+                    "'theme': 'Education',"+
+                    "'themeAR': 'تعليم',"+
+                    "'saved': false"+
+                    "}," +
+                    "{" +
+                    "'id':3," +
+                    "'title':'AJAX AMSTERDAM 1-1 JUVENTUS TURIN'," +
+                    "'titleAR':'اجاكس امستردام 1-1 يوفنتوس'," +
+                    "'description': 'LIGUE DES CHAMPIONS – On s attendait à un match intense entre deux historiques du football européen, ils nous ont servi. Si personne ne repart avec la victoire, tous les supporters peuvent être heureux de ce qu ils ont vu (1-1).'," +
+                    "'descriptionAR': 'بطولات الدوري - كنا نتوقع مباراة قوية بين اثنين من كرة القدم الأوروبية التاريخية ، وأنها خدمتنا. إذا لم يغادر أحد النصر ، فسيكون كل المعجبين سعداء بما شاهدوه (1-1)'," +
+                    "'main_image': 'https://letsbuildthatapp-videos.s3-us-west-2.amazonaws.com/dda5bc77-327f-4944-8f51-ba4f3651ffdf'," +
+                    "'time': '29/04/2019',"+
+                    "'theme': 'Sport',"+
+                    "'themeAR': 'رياضة',"+
+                    "'saved': false"+
+                    "}," +
+                    "{" +
+                    "'id':4," +
+                    "'title':'PSG: la Coupe de France pour éviter la saison noire'," +
+                    "'titleAR':'باريس سان جيرمان: كوبيه دي فرانس لتجنب الموسم الأسود'," +
+                    "'description': 'Saint-Denis (AFP) - La Coupe de France ne sauvera peut-être pas la saison du PSG, qui rêvait plus haut. Mais les Parisiens, avec le retour de Neymar comme titulaire samedi au Stade de France, doivent battre Rennes pour ne pas boucler l an I de l entraîneur Thomas Tuchel sur un échec.'," +
+                    "'descriptionAR': 'سانت دينيس (أ ف ب) - قد لا ينقذ فريق Coupe de France موسم باريس سان جيرمان ، الذي كان يحلم بارتفاعه. لكن على الباريسيين ، مع عودة نيمار كحامل يوم السبت في استاد فرنسا ، أن يهزموا رين حتى لا يكتمل العام الذي أدير فيه توماس توشيل في حالة فشل'," +
+                    "'main_image': 'https://letsbuildthatapp-videos.s3-us-west-2.amazonaws.com/dda5bc77-327f-4944-8f51-ba4f3651ffdf'," +
+                    "'time': '29/04/2019',"+
+                    "'theme': 'Sport',"+
+                    "'themeAR': 'رياضة',"+
+                    "'saved': false"+
+                    "}," +
+                    "{" +
+                    "'id':5," +
+                    "'title':'L ex-DGSN Hamel convoqué par la justice'," +
+                    "'titleAR':'استدعى هامل سابقاً من قبل العدالة'," +
+                    "'description': 'Abdelghani Hamel, ancien Directeur général de la sûreté nationale (DGSN) a été convoqué par la justice, annonce ce soir l’ENTV." +
+                    "" +
+                    "Selon la même source, le général à la retraite comparaitra lundi prochain en compagnie de son fils devant le juge d’instruction du tribunal de Tipaza. Ils sont poursuivis pour « activités illégales, trafic d’influence, détournement de foncier et mauvaise utilisation de la fonction », précise l ENTV.'," +
+                    "'descriptionAR': 'عبد الغني هامل ، المدير العام السابق للأمن القومي" +
+                    "" +
+                    "وفقًا للمصدر نفسه ، سيظهر الجنرال المتقاعد يوم الاثنين المقبل مع ابنه أمام قاضي التحقيق في محكمة تيبازة. يقول ENTV إنهم يتعرضون للمحاكمة بتهمة أنشطة غير مشروعة ، والتأثير في بيع البنادق ، واختلاس الأراضي وإساءة استخدام الوظيفة.'," +
+                    "'main_image': 'https://letsbuildthatapp-videos.s3-us-west-2.amazonaws.com/dda5bc77-327f-4944-8f51-ba4f3651ffdf'," +
                     "'time': '29/04/2019',"+
                     "'theme': 'Politique',"+
                     "'themeAR': 'سياسة',"+
                     "'saved': false"+
                     "}," +
                     "{" +
-                    "'id':3," +
-                    "'title':'AJAX AMSTERDAM 1-1 JUVENTUS TURIN'," +
-                    "'titleAR':'بريطانيا تؤجل الإنتخابات'," +
-                    "'description': 'LIGUE DES CHAMPIONS – On s attendait à un match intense entre deux historiques du football européen, ils nous ont servi. Si personne ne repart avec la victoire, tous les supporters peuvent être heureux de ce qu ils ont vu (1-1).'," +
-                    "'descriptionAR': 'بريطانيا تؤجل الإنتخابات'," +
+                    "'id':6," +
+                    "'title':'Netflix annonce l arrivée de son nouveau jeu vidéo Stranger Things dans un mois'," +
+                    "'titleAR':'تعلن Netflix عن وصول لعبة الفيديو الجديدة Stranger Things في شهر واحد'," +
+                    "'description': 'Après l échec de son premier jeu Stranger Things sur mobile, Nefflix retente l aventure. Le titre sera cette fois disponible sur toutes les consoles, y compris la Nintendo Switch.\n" +
+                    "Netflix a participé pour la première fois à l E3, le célèbre  salon du jeu vidéo organisé à Los Angeles. Le géant de la VOD (vidéo à la demande) a confirmé ses ambitions dans le secteur en dévoilant mercredi des titres tirés de séries originales, comme la série Stranger Things.'," +
+                    "'descriptionAR': 'بعد فشل أول لعبة له Stranger Things على الهاتف المحمول ، حاول Nefflix المغامرة. سيكون العنوان متاحًا هذه المرة على جميع لوحات المفاتيح ، بما في ذلك Nintendo Switch\n" +
+                    "شاركت Netflix لأول مرة في E3 ، عرض ألعاب الفيديو الشهير في لوس أنجلوس. أكدت شركة VOD العملاقة التي تعمل بالفيديو حسب الطلب طموحاتها في هذا القطاع من خلال الكشف عن ألقاب يوم الأربعاء من السلسلة الأصلية ، مثل سلسلة Stranger Things'," +
                     "'main_image': 'https://letsbuildthatapp-videos.s3-us-west-2.amazonaws.com/dda5bc77-327f-4944-8f51-ba4f3651ffdf'," +
                     "'time': '29/04/2019',"+
-                    "'theme': 'Sport',"+
-                    "'themeAR': 'رياضة',"+
+                    "'theme': 'Jeux',"+
+                    "'themeAR': 'ألعاب',"+
+                    "'saved': false"+
+                    "}," +
+                    "{" +
+                    "'id':7," +
+                    "'title':'Cacao : le Ghana et la Côte d Ivoire suspendent leurs ventes'," +
+                    "'titleAR':'الكاكاو: غانا وساحل العاج تعلقان المبيعات'," +
+                    "'description': 'À moins de 2600 dollars la tonne, on ne vend plus. C est l ultimatum qu ont lancé mercredi les deux plus gros producteurs mondiaux de cacao, la Côte d Ivoire et le Ghana. Une décision annoncée à l issue de deux jours de réunions entre producteurs, négociants et responsables politiques.\n" +
+                    "« Ce qu il s est passé ces deux jours est historique », salue le directeur général du « Ghana cocoa Board », Joseph Boahen Aidoo. « Depuis des années, ce sont les acheteurs qui ont déterminé les prix ». Pour essayer d inverser la tendance, précise-t-il, « la Côte d Ivoire et le Ghana ont suspendu la vente des récoltes de 2020/2021 jusqu à nouvel ordre pour préparer la mise en place de ce prix minimum ».'," +
+                    "'descriptionAR': 'بأقل من 2600 دولار للطن ، لم نعد نبيع. هذا هو الإنذار الأخير الذي أطلق يوم الأربعاء أكبر منتجين للكاكاو ، كوت ديفوار وغانا. تم الإعلان عن قرار بعد يومين من الاجتماعات بين المنتجين والتجار والسياسيين.\n" +
+                    "\"ما حدث في هذين اليومين أمر تاريخي\" ، يحيي المدير العام لـ \"غانا كاكوا بورد\" جوزيف بواين إيدو. \"لسنوات ، حددت المشترين الأسعار.\" ويقول إنه لمحاولة قلب المد ، \"علقت كوت ديفوار وغانا بيع محاصيل 2020/2021 حتى إشعار آخر للتحضير لإدخال هذا السعر الأدنى\".'," +
+                    "'main_image': 'https://letsbuildthatapp-videos.s3-us-west-2.amazonaws.com/dda5bc77-327f-4944-8f51-ba4f3651ffdf'," +
+                    "'time': '29/04/2019',"+
+                    "'theme': 'Economie',"+
+                    "'themeAR': 'إقتصاد',"+
                     "'saved': false"+
                     "}" +
                     "]" +

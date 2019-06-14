@@ -6,10 +6,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import com.bumptech.glide.Glide
 import com.google.gson.GsonBuilder
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_actuality_detail.*
+import kotlinx.android.synthetic.main.actuality_row.*
+import kotlinx.android.synthetic.main.actuality_row.view.*
 
 class ActualityDetailActivity : AppCompatActivity() {
 
@@ -18,12 +18,15 @@ class ActualityDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_actuality_detail)
 
         setTitle(R.string.news)
-
+        var id = intent.getIntExtra("actualityId", 0)
         textView_title.text = intent.getStringExtra("actualityTitle")
         textView_description.text = intent.getStringExtra("actualityDescription")
         saved_switch.isChecked = intent.getBooleanExtra("actualitySaved",false)
+
+        val idImage = resources.getIdentifier("img"+id, "drawable", packageName)
+        imageView.setImageResource(idImage)
+
         saved_switch.setOnCheckedChangeListener { buttonView, isChecked ->
-            var id = intent.getIntExtra("actualityId", 0)
             var prefs: Prefs? = null
             prefs = Prefs(this)
 
