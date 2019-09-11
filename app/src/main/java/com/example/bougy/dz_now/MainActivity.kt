@@ -23,6 +23,10 @@ import java.util.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    var actualities: List<Actuality>? = null
+    var adapter: MainAdapter? = null
+    var homeFeedAll: HomeFeed? = null
+    var themeList: ThemeList? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -77,9 +81,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
-        val intent = Intent(this, FilteredListActivity::class.java)
-        intent.putExtra("title", item.title)
-        startActivity(intent)
+        actualities = homeFeedAll!!.actualities.filter {
+            item.title == it.theme
+
+        }
+
+        adapter = MainAdapter(HomeFeed(actualities!!))
+        recyclerView_main.adapter = adapter
+
+
 
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
@@ -245,9 +255,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val gson = GsonBuilder().create()
 
-        val themeList = gson.fromJson(body, ThemeList::class.java)
+        themeList = gson.fromJson(body, ThemeList::class.java)
+        val filterdThemeList = themeList!!.themes.filter {  theme -> theme.checked }
 
-        themeList.themes.mapIndexed { index, theme ->
+        filterdThemeList.mapIndexed { index, theme ->
             val group = nav_view.menu.getItem(0).subMenu
             val lang = Locale.getDefault().getLanguage()
             when(lang){
@@ -273,24 +284,25 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             body = prefs.actualities
         val gson = GsonBuilder().create()
 
-        val homeFeedAll = gson.fromJson(body, HomeFeed::class.java)
+        homeFeedAll = gson.fromJson(body, HomeFeed::class.java)
 
 
         var themeData = ""
         if (prefs.contains("themes"))
             themeData = prefs.themes
 
-        val themeList = gson.fromJson(themeData, ThemeList::class.java)
+        themeList = gson.fromJson(themeData, ThemeList::class.java)
 
-        var actualities: List<Actuality> = homeFeedAll.actualities.filter {
+        actualities = homeFeedAll!!.actualities.filter {
             var theme = it.theme
-            themeList.themes.filter { it.title == theme }.single().checked
+            themeList!!.themes.filter { it.title == theme }.single().checked
         }
 
-        var homeFeed = HomeFeed(actualities)
+        var homeFeed = HomeFeed(actualities!!)
+        adapter  = MainAdapter(homeFeed)
 
         runOnUiThread {
-            recyclerView_main.adapter = MainAdapter(homeFeed)
+            recyclerView_main.adapter = adapter!!
         }
 
     }
