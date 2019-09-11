@@ -15,26 +15,26 @@ class BookmarkActivity : AppCompatActivity() {
 
         setTitle(R.string.action_favoris)
 
-        getBookmark()
+        //getBookmark()
     }
 
-    fun getBookmark() {
-        var prefs: Prefs? = null
-        prefs = Prefs(this)
-
-        var body = ""
-        if (prefs.contains("actualities"))
-            body = prefs.actualities
-        val gson = GsonBuilder().create()
-
-        val homeFeedAll = gson.fromJson(body, HomeFeed::class.java)
-
-        var actualities: List<Actuality> = homeFeedAll.actualities.filter { it.saved }
-
-        var homeFeed = HomeFeed(actualities)
-        runOnUiThread {
-            recyclerView_bookmark.adapter = MainAdapter(homeFeed)
-        }
-
-    }
+//    fun getBookmark() {
+//        var prefs: Prefs? = null
+//        prefs = Prefs(this)
+//
+//        var body = ""
+//        if (prefs.contains("actualities"))
+//            body = prefs.actualities
+//        val gson = GsonBuilder().create()
+//
+//        val homeFeedAll = gson.fromJson(body, HomeFeed::class.java)
+//
+//        var actualities: List<Article> = homeFeedAll.actualities.filter { it.title != "" }
+//
+//        var homeFeed = HomeFeed(actualities as ArrayList<Article>)
+//        runOnUiThread {
+//            recyclerView_bookmark.adapter = MainAdapter(homeFeed, this)
+//        }
+//
+//    }
 }

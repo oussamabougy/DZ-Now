@@ -17,20 +17,26 @@ import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import com.google.gson.GsonBuilder
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.actuality_row.view.*
 import kotlinx.android.synthetic.main.content_main.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    var actualities: List<Actuality>? = null
-    var adapter: MainAdapter? = null
-    var homeFeedAll: HomeFeed? = null
-    var themeList: ThemeList? = null
+    private var actualities: ArrayList<Article> = ArrayList()
+    private var adapter: MainAdapter? = null
+    private var themeList: ThemeList? = null
+    private var compositeDisposable: CompositeDisposable? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+        compositeDisposable = CompositeDisposable()
 
 
         val toggle = ActionBarDrawerToggle(
@@ -43,7 +49,31 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         //recyclerView_main.layoutManager = GridLayoutManager(this)
 
+        loadData()
+
         initApp()
+    }
+
+    fun loadData(){
+        val restService = Retrofit.getRetrofit().create(RestService::class.java)
+        compositeDisposable?.add(restService.getArticles()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(this::handleResponse))
+
+    }
+
+    fun handleResponse(articleList: List<Article>){
+        this.actualities!!.addAll(articleList)
+        adapter!!.notifyDataSetChanged()
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        compositeDisposable?.clear()
+
     }
 
     override fun onBackPressed() {
@@ -81,12 +111,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
-        actualities = homeFeedAll!!.actualities.filter {
-            item.title == it.theme
+        actualities = actualities.filter {
+            item.title == it.category
 
-        }
+        } as ArrayList<Article>
 
-        adapter = MainAdapter(HomeFeed(actualities!!))
+        adapter = MainAdapter(actualities, this)
         recyclerView_main.adapter = adapter
 
 
@@ -260,17 +290,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         filterdThemeList.mapIndexed { index, theme ->
             val group = nav_view.menu.getItem(0).subMenu
-            val lang = Locale.getDefault().getLanguage()
-            when(lang){
-                "ar" -> {
-                    val item = group.add(theme.titleAR)
-                    item.setIcon(R.drawable.ic_feed)
-                }
-                else -> {
-                    val item = group.add(theme.title)
-                    item.setIcon(R.drawable.ic_feed)
-                }
-            }
+            val item = group.add(theme.title)
+            item.setIcon(R.drawable.ic_feed)
 
         }
 
@@ -284,7 +305,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             body = prefs.actualities
         val gson = GsonBuilder().create()
 
-        homeFeedAll = gson.fromJson(body, HomeFeed::class.java)
+
 
 
         var themeData = ""
@@ -293,13 +314,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         themeList = gson.fromJson(themeData, ThemeList::class.java)
 
-        actualities = homeFeedAll!!.actualities.filter {
-            var theme = it.theme
-            themeList!!.themes.filter { it.title == theme }.single().checked
-        }
+//        actualities = homeFeedAll!!.actualities.filter {
+//            var theme = it.category
+//            themeList!!.themes.filter { it.title == theme }.single().checked
+//        } as ArrayList<Article>
 
-        var homeFeed = HomeFeed(actualities!!)
-        adapter  = MainAdapter(homeFeed)
+
+        adapter  = MainAdapter(actualities, this)
 
         runOnUiThread {
             recyclerView_main.adapter = adapter!!
@@ -309,9 +330,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 }
 
-class HomeFeed(val actualities: List<Actuality>)
 
-class Actuality(val id: Int, val title: String, val titleAR:String, val description: String, val descriptionAR: String, val main_image: String, val time: String, val theme: String, val themeAR:String, var saved: Boolean)
 
 class Prefs (context: Context) {
     val PREFS_FILENAME = "com.prefs"

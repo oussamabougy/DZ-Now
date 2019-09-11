@@ -17,7 +17,7 @@ object Retrofit {
         this.addInterceptor(interceptor)
     }.build()
 
-    val BASE_URL = ""
+    val BASE_URL = "http://dz-now.herokuapp.com/api/"
 
 
     fun getRetrofit() : Retrofit {
