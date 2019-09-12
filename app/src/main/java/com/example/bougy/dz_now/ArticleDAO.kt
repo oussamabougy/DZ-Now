@@ -7,8 +7,8 @@ interface ArticleDAO {
     @Query("SELECT * FROM article")
     fun getArticles():List<Article>
 
-    @Query("SELECT * FROM article WHERE id =:arg0")
-    fun getArticle(arg0:Int):Article
+    @Query("SELECT * FROM article WHERE title =:arg0")
+    fun getArticle(arg0:String):Article
 
     @Query("Select count(*) from article")
     fun getCount():Int

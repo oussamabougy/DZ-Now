@@ -12,4 +12,5 @@
     <string name="save_actuality">حفظ</string>
     <string name="news">أخبار</string>
     <string name="category">الفئات</string>
+    <string name="action_refresh">تحديث</string>
 </resources>

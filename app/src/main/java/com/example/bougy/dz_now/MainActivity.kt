@@ -21,6 +21,7 @@ import com.google.gson.GsonBuilder
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_setting.*
 import kotlinx.android.synthetic.main.actuality_row.view.*
 import kotlinx.android.synthetic.main.content_main.*
 import java.util.*
@@ -38,8 +39,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         compositeDisposable = CompositeDisposable()
-
-
 
 
         val toggle = ActionBarDrawerToggle(
@@ -99,6 +98,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
+            R.id.action_refresh -> {
+                progressBar.visibility = View.VISIBLE
+                loadData()
+                return true
+            }
             R.id.action_settings -> {
                 val intent = Intent(this, SettingActivity::class.java)
                 startActivity(intent)
@@ -131,77 +135,33 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     fun initApp() {
         renderDrawer()
-        fetchJson()
-    }
-    fun renderDrawer(){
-        var body = ""
-        var prefs: Prefs? = null
-        prefs = Prefs(this)
-        if (prefs.contains("themes"))
-            body = prefs.themes
-
-        val gson = GsonBuilder().create()
-
-        themeList = gson.fromJson(body, ThemeList::class.java)
-        val filterdThemeList = themeList!!.themes.filter {  theme -> theme.checked }
-
-        filterdThemeList.mapIndexed { index, theme ->
-            val group = nav_view.menu.getItem(0).subMenu
-            val item = group.add(theme.title)
-            item.setIcon(R.drawable.ic_feed)
-
-        }
-
-    }
-    fun fetchJson() {
-        var prefs: Prefs? = null
-        prefs = Prefs(this)
-
-        var body = ""
-        if (prefs.contains("actualities"))
-            body = prefs.actualities
-        val gson = GsonBuilder().create()
-
-
-
-
-        var themeData = ""
-        if (prefs.contains("themes"))
-            themeData = prefs.themes
-
-        themeList = gson.fromJson(themeData, ThemeList::class.java)
-
-//        actualities = homeFeedAll!!.actualities.filter {
-//            var theme = it.category
-//            themeList!!.themes.filter { it.title == theme }.single().checked
-//        } as ArrayList<Article>
-
-
         adapter  = MainAdapter(actualities, this)
 
         runOnUiThread {
             recyclerView_main.adapter = adapter!!
         }
+    }
+    fun renderDrawer(){
+        val restService = Retrofit.getRetrofit().create(RestService::class.java)
+        compositeDisposable?.add(restService.getCategories()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(this::handleCategoriesResponse))
+
+    }
+    fun handleCategoriesResponse(categories: List<Categorie>){
+        val list = categories as ArrayList
+        list.add(Categorie(99,"ALL"))
+        list.mapIndexed { index, theme ->
+            val group = nav_view.menu.getItem(0).subMenu
+            val item = group.add(theme.category)
+            item.setIcon(R.drawable.ic_feed)
+
+        }
+
 
     }
 
+
 }
 
-
-
-class Prefs (context: Context) {
-    val PREFS_FILENAME = "com.prefs"
-    val THEMES = "themes"
-    val ACTUALITIES = "actualities"
-    val prefs: SharedPreferences = context.getSharedPreferences(PREFS_FILENAME, 0)
-    fun contains(keywork:String):Boolean{
-        return prefs.contains(keywork)
-    }
-    var themes: String
-        get() = prefs.getString(THEMES, "")
-        set(value) = prefs.edit().putString(THEMES, value).apply()
-
-    var actualities: String
-        get() = prefs.getString(ACTUALITIES, "")
-        set(value) = prefs.edit().putString(ACTUALITIES, value).apply()
-}

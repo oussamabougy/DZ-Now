@@ -57,7 +57,7 @@ class CustomViewHolder(val view : View ): RecyclerView.ViewHolder(view) {
 
                 Log.i("article",article!!.id.toString())
 
-                if(dao!!.getArticle(article!!.id) != null){
+                if(dao!!.getArticle(article!!.title) != null){
                     saved = true
                 }
                 return null

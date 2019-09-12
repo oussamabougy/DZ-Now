@@ -11,4 +11,5 @@
     <string name="save_actuality">Enregistrer</string>
     <string name="news">Journal</string>
     <string name="category">Catégorie</string>
+    <string name="action_refresh">Actualiser</string>
 </resources>

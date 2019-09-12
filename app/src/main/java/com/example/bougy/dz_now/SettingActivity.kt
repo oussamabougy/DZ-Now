@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import android.view.View
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -43,14 +44,15 @@ class SettingActivity : AppCompatActivity() {
 
     }
     fun handleCategoriesResponse(categories: List<Categorie>){
+        themesProgressBar.visibility = View.GONE
         this.categroies.addAll(categories)
         recyclerView_theme.adapter = ThemeSettingAdapter(this.categroies)
-
 
 
     }
 
     fun handleNewsPapersResponse(newsPapers: List<NewsPaper>){
+        sitesProgressBar.visibility = View.GONE
         this.newsPapers.addAll(newsPapers)
         recyclerView_sites.adapter = NewsPapersAdapter(this.newsPapers)
 
