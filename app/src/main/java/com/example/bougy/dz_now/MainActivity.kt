@@ -2,13 +2,16 @@ package com.example.bougy.dz_now
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.NavigationView
-import android.support.v4.view.GravityCompat
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -27,15 +30,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(toolbar as Toolbar?)
         compositeDisposable = CompositeDisposable()
 
 
         val toggle = ActionBarDrawerToggle(
-            this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+            this, drawer_layout as DrawerLayout?,
+            toolbar as Toolbar?, R.string.navigation_drawer_open, R.string.navigation_drawer_close
         )
-        drawer_layout.addDrawerListener(toggle)
+        (drawer_layout as DrawerLayout?)!!.addDrawerListener(toggle)
         toggle.syncState()
+
+        val nav_view = findViewById<NavigationView>(R.id.nav_view)
 
         nav_view.setNavigationItemSelectedListener(this)
 
@@ -62,6 +68,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         this.articles.addAll(articleList)
         this.allArticles!!.addAll(articleList)
         adapter = MainAdapter(articles, this)
+        val recyclerView_main = findViewById<RecyclerView>(R.id.recyclerView_main)
         recyclerView_main.adapter = adapter
 
     }
@@ -74,6 +81,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
+        val drawer_layout = findViewById<DrawerLayout>(R.id.drawer_layout)
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
         } else {
@@ -127,10 +135,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
         adapter = MainAdapter(articles, this)
+        val recyclerView_main = findViewById<RecyclerView>(R.id.recyclerView_main)
         recyclerView_main.adapter = adapter
 
 
-
+        val drawer_layout = findViewById<DrawerLayout>(R.id.drawer_layout)
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
@@ -140,6 +149,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         adapter  = MainAdapter(articles, this)
 
         runOnUiThread {
+            val recyclerView_main = findViewById<RecyclerView>(R.id.recyclerView_main)
             recyclerView_main.adapter = adapter!!
         }
     }
@@ -154,6 +164,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     fun handleCategoriesResponse(categories: List<Categorie>){
         val list = categories as ArrayList
         list.add(Categorie(99,"Tout"))
+        val nav_view = findViewById<NavigationView>(R.id.recyclerView_main)
         list.mapIndexed { index, theme ->
             val group = nav_view.menu.getItem(0).subMenu
             val item = group.add(theme.category)

@@ -1,8 +1,9 @@
 package com.example.bougy.dz_now
 
-import android.support.v7.app.AppCompatActivity
+
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+
+import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_actuality_detail.*
 import kotlinx.android.synthetic.main.activity_filtered_list.*

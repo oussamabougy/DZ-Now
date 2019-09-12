@@ -1,10 +1,10 @@
 package com.example.bougy.dz_now
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -22,6 +22,10 @@ class SettingActivity : AppCompatActivity() {
         setTitle(R.string.action_settings)
 
         compositeDisposable = CompositeDisposable()
+
+        val recyclerView_theme = findViewById<RecyclerView>(R.id.recyclerView_theme)
+        val recyclerView_sites = findViewById<RecyclerView>(R.id.recyclerView_sites)
+
 
         recyclerView_theme.layoutManager = LinearLayoutManager(this)
         recyclerView_sites.layoutManager = LinearLayoutManager(this)
@@ -46,6 +50,7 @@ class SettingActivity : AppCompatActivity() {
     fun handleCategoriesResponse(categories: List<Categorie>){
         themesProgressBar.visibility = View.GONE
         this.categroies.addAll(categories)
+        val recyclerView_theme = findViewById<RecyclerView>(R.id.recyclerView_theme)
         recyclerView_theme.adapter = ThemeSettingAdapter(this.categroies)
 
 
@@ -54,6 +59,7 @@ class SettingActivity : AppCompatActivity() {
     fun handleNewsPapersResponse(newsPapers: List<NewsPaper>){
         sitesProgressBar.visibility = View.GONE
         this.newsPapers.addAll(newsPapers)
+        val recyclerView_sites = findViewById<RecyclerView>(R.id.recyclerView_sites)
         recyclerView_sites.adapter = NewsPapersAdapter(this.newsPapers)
 
 

@@ -1,6 +1,6 @@
 package com.example.bougy.dz_now
 
-import android.arch.persistence.room.*
+import androidx.room.*
 
 @Dao
 interface ArticleDAO {

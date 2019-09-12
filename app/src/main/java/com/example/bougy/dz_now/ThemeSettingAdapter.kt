@@ -1,12 +1,12 @@
 package com.example.bougy.dz_now
 
 import android.content.Intent
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.actuality_row.view.*
 import kotlinx.android.synthetic.main.theme_setting_row.view.*

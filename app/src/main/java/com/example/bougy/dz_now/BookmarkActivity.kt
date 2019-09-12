@@ -1,13 +1,15 @@
 package com.example.bougy.dz_now
 
 import android.os.AsyncTask
-import android.support.v7.app.AppCompatActivity
+
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+
 import android.widget.Toast
-import com.google.gson.GsonBuilder
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
+
 import kotlinx.android.synthetic.main.activity_bookmark.*
-import kotlinx.android.synthetic.main.activity_filtered_list.*
+
 
 class BookmarkActivity : AppCompatActivity() {
 
@@ -29,6 +31,7 @@ class BookmarkActivity : AppCompatActivity() {
                 val dao = db?.articleDAO()
                 savedArticles.addAll(dao!!.getArticles())
                 runOnUiThread {
+                    val recyclerView_bookmark = findViewById<RecyclerView>(R.id.recyclerView_bookmark)
                     recyclerView_bookmark.adapter = MainAdapter(savedArticles,this@BookmarkActivity)
                 }
 

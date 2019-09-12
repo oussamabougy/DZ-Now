@@ -2,12 +2,12 @@ package com.example.bougy.dz_now
 
 import android.content.Intent
 import android.os.AsyncTask
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_actuality_detail.*
