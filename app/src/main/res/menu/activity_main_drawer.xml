@@ -9,5 +9,18 @@
 
         </menu>
     </item>
+    <item android:title="Multimedia" android:id="@+id/multimedia">
+        <menu>
+            <item android:title="Vidéos" android:id="@+id/videos"></item>
+
+        </menu>
+
+    </item>
+    <item android:title="Compte" android:id="@+id/account">
+        <menu>
+            <item android:title="Se connecter" android:id="@+id/signIn"></item>
+
+        </menu>
+    </item>
 
 </menu>

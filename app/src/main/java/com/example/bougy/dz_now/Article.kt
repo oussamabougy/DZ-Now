@@ -13,6 +13,6 @@ data class Article (
     @ColumnInfo val image_url:String,
     @ColumnInfo val date: String,
     @ColumnInfo val category: String,
-    @ColumnInfo val lien:String,
+    @ColumnInfo val link:String,
     @ColumnInfo val source:String
 ) : Serializable
