@@ -3,38 +3,64 @@ package com.example.bougy.dz_now
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.widget.Toast
-import com.google.gson.GsonBuilder
+import android.util.Log
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_setting.*
-import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.android.synthetic.main.theme_setting_row.*
 
 class SettingActivity : AppCompatActivity() {
+
+    private var compositeDisposable: CompositeDisposable? = null
+    private var categroies: ArrayList<Categorie> = ArrayList()
+    private var newsPapers: ArrayList<NewsPaper> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
         setTitle(R.string.action_settings)
 
-        recyclerView_theme.layoutManager = LinearLayoutManager(this)
+        compositeDisposable = CompositeDisposable()
 
-        fetchSettings()
+        recyclerView_theme.layoutManager = LinearLayoutManager(this)
+        recyclerView_sites.layoutManager = LinearLayoutManager(this)
+
+        loadSettings()
 
     }
 
-    fun fetchSettings() {
-        var body = ""
-        var prefs: Prefs? = null
-        prefs = Prefs(this)
-        if (prefs.contains("themes"))
-            body = prefs.themes
+    fun loadSettings() {
+        val restService = Retrofit.getRetrofit().create(RestService::class.java)
+        compositeDisposable?.add(restService.getCategories()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(this::handleCategoriesResponse))
+        compositeDisposable?.add(restService.getNewsPapers()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(this::handleNewsPapersResponse))
 
-        val gson = GsonBuilder().create()
 
-        val themeList = gson.fromJson(body, ThemeList::class.java)
-        runOnUiThread {
-            recyclerView_theme.adapter = ThemeSettingAdapter(themeList)
-        }
+    }
+    fun handleCategoriesResponse(categories: List<Categorie>){
+        this.categroies.addAll(categories)
+        recyclerView_theme.adapter = ThemeSettingAdapter(this.categroies)
+
+
+
+    }
+
+    fun handleNewsPapersResponse(newsPapers: List<NewsPaper>){
+        this.newsPapers.addAll(newsPapers)
+        recyclerView_sites.adapter = NewsPapersAdapter(this.newsPapers)
+
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        compositeDisposable?.clear()
 
     }
 }

@@ -31,7 +31,7 @@ class MainAdapter(val articleList: ArrayList<Article>, val context:Context) : Re
         val article = articleList.get(p1)
         holder.title.text = article.title
         holder.category.text = article.category
-        holder.date.text =  "Date:" + article.date
+        holder.date.text =  article.date
         Glide.with(context).load(articleList.get(p1).image_url).into(holder.image)
 
 

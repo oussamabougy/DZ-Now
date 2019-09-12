@@ -11,13 +11,14 @@ import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.actuality_row.view.*
 import kotlinx.android.synthetic.main.theme_setting_row.view.*
 import java.util.*
+import kotlin.collections.ArrayList
 
-class ThemeSettingAdapter(val themeList: ThemeList) : RecyclerView.Adapter<CustomThemeViewHolder>() {
+class ThemeSettingAdapter(val categories: ArrayList<Categorie>) : RecyclerView.Adapter<CustomThemeViewHolder>() {
 
 
     //Number of items
     override fun getItemCount(): Int {
-        return themeList.themes.count()
+        return categories.count()
     }
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): CustomThemeViewHolder {
@@ -26,38 +27,32 @@ class ThemeSettingAdapter(val themeList: ThemeList) : RecyclerView.Adapter<Custo
         return CustomThemeViewHolder(cellForRow)
     }
     override fun onBindViewHolder(holder: CustomThemeViewHolder, p1: Int) {
-        val theme = themeList.themes.get(p1)
-        val lang = Locale.getDefault().getLanguage()
-        when(lang){
-            "ar" -> holder?.view?.theme_setting_switch?.text = theme.titleAR
-            else -> holder?.view?.theme_setting_switch?.text = theme.title
-        }
-        holder?.view?.theme_setting_switch?.isChecked = theme.checked
+        val theme = categories.get(p1)
+        holder?.view?.theme_setting_switch?.text = theme.category
+        holder?.view?.theme_setting_switch?.isChecked = true
         holder?.view?.theme_setting_switch?.setOnCheckedChangeListener{ buttonView, isChecked ->
-            var prefs: Prefs? = null
-            prefs = Prefs(holder?.view?.context)
-            if (prefs.contains("themes")) {
-                val gson = GsonBuilder().create()
-                val themeList = gson.fromJson(prefs.themes, ThemeList::class.java)
-                //some changes
-                var themes = themeList.themes
-                themes.mapIndexed { index, theme1 ->
-                    if(theme1.title == theme.title) {
-                        if (isChecked)
-                            theme1.checked = true
-                        else
-                            theme1.checked = false
-                    }
-                    else theme
-                }
-                var themeListUpdated = ThemeList(themes)
-                val body = gson.toJson(themeListUpdated)
-                prefs.themes = body
-            }
-            Toast.makeText(holder?.view?.context, theme.title, Toast.LENGTH_SHORT).show()
+//            var prefs: Prefs? = null
+//            prefs = Prefs(holder?.view?.context)
+//            if (prefs.contains("themes")) {
+//                val gson = GsonBuilder().create()
+//                val themeList = gson.fromJson(prefs.themes, ThemeList::class.java)
+//                //some changes
+//                var themes = themeList.themes
+//                themes.mapIndexed { index, theme1 ->
+//                    if(theme1.title == theme.title) {
+//                        if (isChecked)
+//                            theme1.checked = true
+//                        else
+//                            theme1.checked = false
+//                    }
+//                    else theme
+//                }
+//                var themeListUpdated = ThemeList(themes)
+//                val body = gson.toJson(themeListUpdated)
+//                prefs.themes = body
+//            }
+//            Toast.makeText(holder?.view?.context, theme.category, Toast.LENGTH_SHORT).show()
         }
-        //val thumbnailImageView = holder?.view?.imageView_main
-        //Picasso.with(holder?.view?.context).load(travel.main_image).into(thumbnailImageView)
 
     }
 }
@@ -66,5 +61,49 @@ class CustomThemeViewHolder(val view : View): RecyclerView.ViewHolder(view) {
     init {
         view.setOnClickListener {
         }
+    }
+}
+
+class NewsPapersAdapter(val newsPaper: ArrayList<NewsPaper>) : RecyclerView.Adapter<CustomThemeViewHolder>() {
+
+
+    //Number of items
+    override fun getItemCount(): Int {
+        return newsPaper.count()
+    }
+
+    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): CustomThemeViewHolder {
+        val layoutInflater = LayoutInflater.from(p0.context)
+        val cellForRow = layoutInflater.inflate(R.layout.theme_setting_row, p0, false)
+        return CustomThemeViewHolder(cellForRow)
+    }
+    override fun onBindViewHolder(holder: CustomThemeViewHolder, p1: Int) {
+        val newsPaper = newsPaper.get(p1)
+        holder?.view?.theme_setting_switch?.text = newsPaper.name
+        holder?.view?.theme_setting_switch?.isChecked = true
+        holder?.view?.theme_setting_switch?.setOnCheckedChangeListener{ buttonView, isChecked ->
+            //            var prefs: Prefs? = null
+//            prefs = Prefs(holder?.view?.context)
+//            if (prefs.contains("themes")) {
+//                val gson = GsonBuilder().create()
+//                val themeList = gson.fromJson(prefs.themes, ThemeList::class.java)
+//                //some changes
+//                var themes = themeList.themes
+//                themes.mapIndexed { index, theme1 ->
+//                    if(theme1.title == theme.title) {
+//                        if (isChecked)
+//                            theme1.checked = true
+//                        else
+//                            theme1.checked = false
+//                    }
+//                    else theme
+//                }
+//                var themeListUpdated = ThemeList(themes)
+//                val body = gson.toJson(themeListUpdated)
+//                prefs.themes = body
+//            }
+//            Toast.makeText(holder?.view?.context, theme.category, Toast.LENGTH_SHORT).show()
+        }
+
     }
 }
