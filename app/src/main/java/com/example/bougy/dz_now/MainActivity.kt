@@ -164,7 +164,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     fun handleCategoriesResponse(categories: List<Categorie>){
         val list = categories as ArrayList
         list.add(Categorie(99,"Tout"))
-        val nav_view = findViewById<NavigationView>(R.id.recyclerView_main)
+        val nav_view = findViewById<NavigationView>(R.id.nav_view)
         list.mapIndexed { index, theme ->
             val group = nav_view.menu.getItem(0).subMenu
             val item = group.add(theme.category)
