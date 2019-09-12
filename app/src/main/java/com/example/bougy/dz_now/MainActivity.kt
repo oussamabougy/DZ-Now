@@ -1,37 +1,27 @@
 package com.example.bougy.dz_now
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import com.google.gson.GsonBuilder
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_setting.*
-import kotlinx.android.synthetic.main.actuality_row.view.*
 import kotlinx.android.synthetic.main.content_main.*
-import java.util.*
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private var actualities: ArrayList<Article> = ArrayList()
+    private var allArticles: ArrayList<Article> = ArrayList()
+    private var articles:ArrayList<Article> = ArrayList()
     private var adapter: MainAdapter? = null
-    private var themeList: ThemeList? = null
     private var compositeDisposable: CompositeDisposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,8 +57,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     fun handleResponse(articleList: List<Article>){
         progressBar.visibility = View.GONE
-        this.actualities!!.addAll(articleList)
-        adapter!!.notifyDataSetChanged()
+        this.allArticles.clear()
+        this.articles.clear()
+        this.articles.addAll(articleList)
+        this.allArticles!!.addAll(articleList)
+        adapter = MainAdapter(articles, this)
+        recyclerView_main.adapter = adapter
 
     }
 
@@ -119,12 +113,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
-        actualities = actualities.filter {
-            item.title == it.category
 
-        } as ArrayList<Article>
+        if (item.title == "Tout"){
+            articles = allArticles
 
-        adapter = MainAdapter(actualities, this)
+        }else{
+            articles = allArticles.filter {
+                item.title == it.category
+
+            } as  ArrayList<Article>
+
+        }
+
+
+        adapter = MainAdapter(articles, this)
         recyclerView_main.adapter = adapter
 
 
@@ -135,7 +137,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     fun initApp() {
         renderDrawer()
-        adapter  = MainAdapter(actualities, this)
+        adapter  = MainAdapter(articles, this)
 
         runOnUiThread {
             recyclerView_main.adapter = adapter!!
@@ -151,7 +153,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
     fun handleCategoriesResponse(categories: List<Categorie>){
         val list = categories as ArrayList
-        list.add(Categorie(99,"ALL"))
+        list.add(Categorie(99,"Tout"))
         list.mapIndexed { index, theme ->
             val group = nav_view.menu.getItem(0).subMenu
             val item = group.add(theme.category)
