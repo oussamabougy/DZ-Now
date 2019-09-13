@@ -1,8 +1,6 @@
 package com.example.bougy.dz_now
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 import java.io.Serializable
 
 @Entity
@@ -12,7 +10,7 @@ data class Article (
     @ColumnInfo val body:String,
     @ColumnInfo val image_url:String,
     @ColumnInfo val date: String,
-    @ColumnInfo val category: String,
+    @Embedded(prefix = "category_") val category: Categorie,
     @ColumnInfo val link:String,
-    @ColumnInfo val source:String
+    @Embedded(prefix = "source_") val source:Source
 ) : Serializable

@@ -1,16 +1,10 @@
 package com.example.bougy.dz_now
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.GsonBuilder
-import kotlinx.android.synthetic.main.actuality_row.view.*
 import kotlinx.android.synthetic.main.theme_setting_row.view.*
-import java.util.*
 import kotlin.collections.ArrayList
 
 class ThemeSettingAdapter(val categories: ArrayList<Categorie>) : RecyclerView.Adapter<CustomThemeViewHolder>() {
@@ -28,7 +22,7 @@ class ThemeSettingAdapter(val categories: ArrayList<Categorie>) : RecyclerView.A
     }
     override fun onBindViewHolder(holder: CustomThemeViewHolder, p1: Int) {
         val theme = categories.get(p1)
-        holder?.view?.theme_setting_switch?.text = theme.category
+        holder?.view?.theme_setting_switch?.text = theme.name
         holder?.view?.theme_setting_switch?.isChecked = true
         holder?.view?.theme_setting_switch?.setOnCheckedChangeListener{ buttonView, isChecked ->
 //            var prefs: Prefs? = null
@@ -51,7 +45,7 @@ class ThemeSettingAdapter(val categories: ArrayList<Categorie>) : RecyclerView.A
 //                val body = gson.toJson(themeListUpdated)
 //                prefs.themes = body
 //            }
-//            Toast.makeText(holder?.view?.context, theme.category, Toast.LENGTH_SHORT).show()
+//            Toast.makeText(holder?.view?.context, theme.name, Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -102,7 +96,7 @@ class NewsPapersAdapter(val newsPaper: ArrayList<NewsPaper>) : RecyclerView.Adap
 //                val body = gson.toJson(themeListUpdated)
 //                prefs.themes = body
 //            }
-//            Toast.makeText(holder?.view?.context, theme.category, Toast.LENGTH_SHORT).show()
+//            Toast.makeText(holder?.view?.context, theme.name, Toast.LENGTH_SHORT).show()
         }
 
     }

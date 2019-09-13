@@ -9,10 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.activity_bookmark.*
 
 class MainAdapter(val articleList: ArrayList<Article>, val context:Context) : RecyclerView.Adapter<CustomViewHolder>() {
 
@@ -30,7 +28,7 @@ class MainAdapter(val articleList: ArrayList<Article>, val context:Context) : Re
     override fun onBindViewHolder(holder: CustomViewHolder, p1: Int) {
         val article = articleList.get(p1)
         holder.title.text = article.title
-        holder.category.text = article.category
+        holder.category.text = article.category.name
         holder.date.text =  article.date
         Glide.with(context).load(articleList.get(p1).image_url).into(holder.image)
 

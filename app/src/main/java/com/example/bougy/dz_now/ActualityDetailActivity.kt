@@ -3,6 +3,7 @@ package com.example.bougy.dz_now
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -24,6 +25,7 @@ class ActualityDetailActivity : AppCompatActivity() {
 
         setTitle(R.string.news)
         article = intent.getSerializableExtra("article") as Article
+        Log.i("ARTICLE", article!!.category.toString())
 
         textView_title.text = article!!.title
         textView_description.text = article!!.body
@@ -40,6 +42,7 @@ class ActualityDetailActivity : AppCompatActivity() {
             override fun doInBackground(vararg voids: Void): Void? {
                 val db = ArticleDB.getInstance(this@ActualityDetailActivity)
                 val dao = db?.articleDAO()
+
                 dao?.add(article!!)
 
 

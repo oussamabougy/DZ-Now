@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import java.io.Serializable
 
 @Entity
-data class Categorie (
+data class Source (
     @PrimaryKey val id: Int,
-    @ColumnInfo val name: String
+    @ColumnInfo val name:String
 ): Serializable

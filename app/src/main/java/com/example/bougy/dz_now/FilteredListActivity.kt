@@ -40,8 +40,8 @@ class FilteredListActivity : AppCompatActivity() {
 //
 //        val lang = Locale.getDefault().getLanguage()
 //        when(lang) {
-//            "ar" -> actualities = homeFeedAll.actualities.filter { it.category == categoryTitle }
-//            else -> actualities = homeFeedAll.actualities.filter { it.category == categoryTitle }
+//            "ar" -> actualities = homeFeedAll.actualities.filter { it.name == categoryTitle }
+//            else -> actualities = homeFeedAll.actualities.filter { it.name == categoryTitle }
 //        }
 //        var homeFeed = HomeFeed(actualities as ArrayList<Article>)
 //        runOnUiThread {

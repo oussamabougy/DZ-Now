@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar as Toolbar?)
+        setSupportActionBar(toolbar)
         compositeDisposable = CompositeDisposable()
 
 
@@ -127,7 +127,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         }else{
             articles = allArticles.filter {
-                item.title == it.category
+                item.title == it.category.name
 
             } as  ArrayList<Article>
 
@@ -167,7 +167,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val nav_view = findViewById<NavigationView>(R.id.nav_view)
         list.mapIndexed { index, theme ->
             val group = nav_view.menu.getItem(0).subMenu
-            val item = group.add(theme.category)
+            val item = group.add(theme.name)
             item.setIcon(R.drawable.ic_feed)
 
         }
