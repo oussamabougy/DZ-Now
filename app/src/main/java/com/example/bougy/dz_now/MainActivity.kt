@@ -134,6 +134,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 recyclerView_main.adapter = adapter
 
             }
+            "Se connecter"->{
+                val intent = Intent(this,LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+            "Se déconnecter"->{
+                val intent = Intent(this,LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
             else->{
                 articles = allArticles.filter {
                     item.title == it.category.name
@@ -166,6 +176,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
     fun renderDrawer(){
+        val group = nav_view.menu.getItem(2).subMenu
+        if (intent.getBooleanExtra("isLogged",false)){
+            group.add("Se déconnecter")
+        }else{
+            group.add("Se connecter")
+        }
         val restService = Retrofit.getRetrofit().create(RestService::class.java)
         compositeDisposable?.add(restService.getCategories()
             .observeOn(AndroidSchedulers.mainThread())

@@ -18,7 +18,6 @@
     </item>
     <item android:title="Compte" android:id="@+id/account">
         <menu>
-            <item android:title="Se connecter" android:id="@+id/signIn"></item>
 
         </menu>
     </item>
