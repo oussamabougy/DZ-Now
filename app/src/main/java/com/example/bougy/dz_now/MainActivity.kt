@@ -6,6 +6,7 @@ import androidx.core.view.GravityCompat
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -121,22 +122,33 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
+        when(item.title){
+            "Vidéos"->{
+                val intent:Intent = Intent(this,VideoActivity::class.java)
+                startActivity(intent)
+            }
+            "Tout"->{
+                articles = allArticles
+                adapter = MainAdapter(articles, this)
+                val recyclerView_main = findViewById<RecyclerView>(R.id.recyclerView_main)
+                recyclerView_main.adapter = adapter
 
-        if (item.title == "Tout"){
-            articles = allArticles
+            }
+            else->{
+                articles = allArticles.filter {
+                    item.title == it.category.name
 
-        }else{
-            articles = allArticles.filter {
-                item.title == it.category.name
-
-            } as  ArrayList<Article>
-
+                } as  ArrayList<Article>
+                adapter = MainAdapter(articles, this)
+                val recyclerView_main = findViewById<RecyclerView>(R.id.recyclerView_main)
+                recyclerView_main.adapter = adapter
+            }
         }
 
 
-        adapter = MainAdapter(articles, this)
-        val recyclerView_main = findViewById<RecyclerView>(R.id.recyclerView_main)
-        recyclerView_main.adapter = adapter
+
+
+
 
 
         val drawer_layout = findViewById<DrawerLayout>(R.id.drawer_layout)
