@@ -28,7 +28,7 @@ class ThemeSettingAdapter(val context:Context,val categories: ArrayList<Categori
     override fun onBindViewHolder(holder: CustomThemeViewHolder, p1: Int) {
         val theme = categories.get(p1)
         holder?.view?.theme_setting_switch?.text = theme!!.name
-        holder?.view?.theme_setting_switch?.isChecked = favoriteCategories.map { f -> f.id }.contains(theme.id)
+        holder?.view?.theme_setting_switch?.isChecked = favoriteCategories.map { f -> f.name }.contains(theme.name)
         holder?.view?.theme_setting_switch?.setOnCheckedChangeListener{ buttonView, isChecked ->
             val restService = Retrofit.getRetrofit().create(RestService::class.java)
             val compositeDisposable = CompositeDisposable()
@@ -52,7 +52,7 @@ class ThemeSettingAdapter(val context:Context,val categories: ArrayList<Categori
 
 
     }
-    fun handleDeleteCategoryResponse(void: Void){
+    fun handleDeleteCategoryResponse(){
         Toast.makeText(context, "La catégorie a été supprimé de vos favoris" , Toast.LENGTH_SHORT).show()
 
 
@@ -109,14 +109,14 @@ class SourceAdapter(val context: Context,val sourceList: ArrayList<Source>, val 
 
     }
 
-    fun handleDeleteSiteResponse(void: Void){
-        Toast.makeText(context, "La catégorie a été supprimé de vos favoris" , Toast.LENGTH_SHORT).show()
+    fun handleDeleteSiteResponse(){
+        Toast.makeText(context, "Le site a été supprimé de vos favoris" , Toast.LENGTH_SHORT).show()
 
 
 
     }
     fun handleAddSiteResponse(source: Source){
-        Toast.makeText(context, "La catégorie a été ajouté à vos favoris" , Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Le site a été ajouté à vos favoris" , Toast.LENGTH_SHORT).show()
 
     }
 }

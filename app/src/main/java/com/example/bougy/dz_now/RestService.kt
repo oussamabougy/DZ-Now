@@ -1,20 +1,21 @@
 package com.example.bougy.dz_now
 
 import com.google.gson.JsonObject
+import io.reactivex.Completable
 import io.reactivex.Observable
 import retrofit2.http.*
 
 interface RestService {
-    @GET("get_news")
+    @GET("get_news/")
     fun getArticles(): Observable<List<Article>>
 
-    @GET("category")
+    @GET("category/")
     fun getCategories(): Observable<List<Categorie>>
 
-    @GET("source")
+    @GET("source/")
     fun getSources(): Observable<List<Source>>
 
-    @GET("get_videos")
+    @GET("get_videos/")
     fun getVideos(): Observable<List<Video>>
 
     @POST("auth_social/")
@@ -37,23 +38,25 @@ interface RestService {
         @Header("Authorization") token:String
     ):Observable<List<Article>>
 
-    @DELETE("category_favorite/{id}")
+    @DELETE("category_favorite/{id}/")
     fun deleteFavoriteCategory(
         @Header("Authorization") token:String,
         @Path("id") id:Int
-    ): Observable<Void>
+    ): Completable
 
-    @DELETE("source_favorite/{id}")
+
+    @DELETE("source_favorite/{id}/")
     fun deleteFavoriteSite(
         @Header("Authorization") token:String,
         @Path("id") id: Int
-    ): Observable<Void>
+    ): Completable
 
-    @DELETE("actuality_favorite/{id}")
+    @DELETE("actuality_favorite/{id}/")
     fun deleteFavoriteArticle(
         @Header("Authorization") token:String,
         @Path("id") id:Int
-    ): Observable<Void>
+    ): Completable
+
 
     @FormUrlEncoded
     @POST("category_favorite/")
