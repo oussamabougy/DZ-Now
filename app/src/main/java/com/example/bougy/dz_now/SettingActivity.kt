@@ -1,6 +1,8 @@
 package com.example.bougy.dz_now
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,8 +15,11 @@ import kotlinx.android.synthetic.main.activity_setting.*
 class SettingActivity : AppCompatActivity() {
 
     private var compositeDisposable: CompositeDisposable? = null
-    private var categroies: ArrayList<Categorie> = ArrayList()
-    private var newsPapers: ArrayList<NewsPaper> = ArrayList()
+    private var favoriteCategories: ArrayList<Categorie> = ArrayList()
+    private var allCategories: ArrayList<Categorie> = ArrayList()
+    private var favoriteSources: ArrayList<Source> = ArrayList()
+    private var allSources: ArrayList<Source> = ArrayList()
+    private lateinit var authResponse:AuthResponse
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,31 +41,66 @@ class SettingActivity : AppCompatActivity() {
 
     fun loadSettings() {
         val restService = Retrofit.getRetrofit().create(RestService::class.java)
+        authResponse = Utilities.retrieveAuthResponse(this)
+        if (authResponse != null){
+            compositeDisposable?.add(restService.getFavoriteCategories("Token "+authResponse.auth_token)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::handleCategoriesResponse))
+            compositeDisposable?.add(restService.getFavoriteSites("Token "+authResponse.auth_token)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::handleNewsPapersResponse))
+
+
+
+
+        }else{
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+
+
+
+    }
+    fun handleCategoriesResponse(categories: List<FavoriteCategory>){
+        this.favoriteCategories.addAll(categories.map { f -> f.category })
+        val restService = Retrofit.getRetrofit().create(RestService::class.java)
         compositeDisposable?.add(restService.getCategories()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe(this::handleCategoriesResponse))
-        compositeDisposable?.add(restService.getNewsPapers()
+            .subscribe(this::handleAllCategoriesResponse))
+    }
+
+    fun handleAllCategoriesResponse(categories: List<Categorie>){
+        themesProgressBar.visibility = View.GONE
+        this.allCategories.addAll(categories)
+        val recyclerView_theme = findViewById<RecyclerView>(R.id.recyclerView_theme)
+        recyclerView_theme.adapter = ThemeSettingAdapter(this,this.allCategories,this.favoriteCategories,"Token "+authResponse.auth_token )
+
+
+    }
+
+    fun handleNewsPapersResponse(newsPapers: List<Source>){
+
+        this.favoriteSources.addAll(newsPapers)
+        val restService = Retrofit.getRetrofit().create(RestService::class.java)
+        compositeDisposable?.add(restService.getSources()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe(this::handleNewsPapersResponse))
+            .subscribe(this::handleAllSourcesResponse))
 
-
-    }
-    fun handleCategoriesResponse(categories: List<Categorie>){
-        themesProgressBar.visibility = View.GONE
-        this.categroies.addAll(categories)
-        val recyclerView_theme = findViewById<RecyclerView>(R.id.recyclerView_theme)
-        recyclerView_theme.adapter = ThemeSettingAdapter(this.categroies)
 
 
     }
 
-    fun handleNewsPapersResponse(newsPapers: List<NewsPaper>){
+    fun handleAllSourcesResponse(newsPapers: List<Source>){
         sitesProgressBar.visibility = View.GONE
-        this.newsPapers.addAll(newsPapers)
+        this.allSources.addAll(newsPapers)
         val recyclerView_sites = findViewById<RecyclerView>(R.id.recyclerView_sites)
-        recyclerView_sites.adapter = NewsPapersAdapter(this.newsPapers)
+        recyclerView_sites.adapter = SourceAdapter(this, this.allSources, this.favoriteSources, "Token "+authResponse.auth_token)
 
 
     }
